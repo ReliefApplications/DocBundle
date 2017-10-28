@@ -1,0 +1,3 @@
+ra_doc_homepage:
+    path:     /
+    defaults: { _controller: RADocBundle:Default:index }

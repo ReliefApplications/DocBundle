@@ -43,3 +43,162 @@ class AppKernel extends Kernel
     // ...
 }
 ```
+
+Step 3: Usage
+-------------------------
+
+1. Create a class which extends Ra\DocBundle\Model\BaseDocument
+
+    ```php
+    <?php
+    /**
+    * @ORM\Table(name="document")
+    * @ORM\Entity(repositoryClass="...")
+    **/
+    class Document extends BaseDocument {
+        //...
+        public function __construct()
+        {
+            parent::__construct();
+            // your work
+        }
+        //...
+    }
+
+    ```
+
+2. Uploading and creating a document
+
+    ```php
+    <?php
+
+    public function createAction(Request $request){
+        //build Document
+        $document   = new Document();
+        $file       = $request->files->get('file');
+
+        try {
+            $this->get('ra_doc.transfert')->createDocument($document, $file);
+        } catch (\Exception $e) {
+            return new JsonResponse($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+
+    ```
+
+3. Uploading and updating a document
+
+    ```php
+    <?php
+
+    public function updateAction(Request $request, Document $document) {
+        $name       = $request->request->get('name') ?: $document->getName();
+        $file       = $request->files->get('file'); //doesn't care if the file is empty or not
+
+        //changing metaname
+        $document->getDocumentMeta()->setName($name);
+
+        try {
+            $this->get('ra_doc.transfert')->updateDocument($document, $file);
+        } catch (\Exception $e) {
+            return new JsonResponse($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+    ```
+
+4. Downloading a document
+    ```php
+    <?php
+    public function downloadAction(Request $request, Document $document)
+    {
+        try {
+            return $this->get('ra_doc.transfert')->download($document);
+        } catch (\Exception $e) {
+            return new JsonResponse($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+    }
+    ```
+
+5. Removing a document
+    ```php
+    <?php
+    public function deleteAction(Request $request, Document $document)
+    {
+        try{
+            $this->get('ra_doc.transfert')->deleteDocument($document);
+        } catch (\Exception $e) {
+            return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+
+        return new Response();
+    }
+
+    ```
+
+Step 4: Configuration
+-------------------------
+
+The configuration of Vich, Gaufrette and Liip is the responsability of the developer.
+
+Step * : Customization
+-------------------------
+1.
+You can change the default file's field by adding a custom field and declaring this field :
+
+```php
+<?php
+
+//...
+use RA\DocBundle\Model\BaseDocument;
+use RA\DocBundle\Model\Limits;
+use Symfony\Component\HttpFoundation\File\File;
+//...
+
+class Document extends BaseDocument {
+    //...
+    /**
+     * @Assert\NotNull(
+     *     message = "The file is required"
+     * )
+     * @Assert\File(
+     *     maxSize= Limits::max_document_size,
+     *     mimeTypes={"application/pdf", "application/x-pdf",
+     *         "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+     *         "image/jpeg", "image/png",
+     *         "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+     *         "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/vnd.ms-powerpoint.addin.macroEnabled.12",
+     *         "application/vnd.openxmlformats-officedocument.presentationml.template", "application/vnd.openxmlformats-officedocument.presentationml.slideshow",
+     *         "text/plain", "image/pjpeg","application/vnd.oasis.opendocument.spreadsheet"
+     *     },
+     *     mimeTypesMessage="ra.document.type-of-file-is-invalid"
+     * )
+     * @Vich\UploadableField(mapping="upload_file", fileNameProperty="name")
+     *
+     * @var File $customFile
+     */
+    protected $customFile;
+
+    //...
+
+    //overrides inherited function
+    public function getFileField()
+    {
+        return 'customFile';
+    }
+
+    //overrides inherited function
+    public function getFile()
+    {
+        return $this->getCustomFile();
+    }
+
+    //overrides inherited function
+    public function setFile(\Symfony\Component\HttpFoundation\File\UploadedFile $file)
+    {
+        parent::setFile($file);
+        $this->setCustomFile($file);
+    }
+
+}
+```
+
+
+You can also define your custom requirements in the Assert\File annotation.

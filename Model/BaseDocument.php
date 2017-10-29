@@ -77,6 +77,7 @@ class BaseDocument implements DocumentInterface
 
     public function __construct()
     {
+        $this->name = "";
         $this->documentMeta = null;
         $this->updatedAt = new \DateTime('now');
     }

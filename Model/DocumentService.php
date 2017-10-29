@@ -109,7 +109,7 @@ class DocumentService
             throw new DocumentException([], "Document doesn't implements DocumentInterface", 1);
         }
 
-        $handler = $this->get('vich_uploader.download_handler');
+        $handler = $this->container->get('vich_uploader.download_handler');
 
         if( ! is_null($document->getDocumentMeta()))
             $file = $handler->downloadObject($document, $document->getFileField(), null, $document->getDocumentMeta()->getOriginalName());

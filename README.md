@@ -16,6 +16,8 @@ This command requires you to have Composer installed globally, as explained
 in the [installation chapter](https://getcomposer.org/doc/00-intro.md)
 of the Composer documentation.
 
+For more informations about the bundle and its dependencies, please visit our packagist page : [https://packagist.org/packages/relief_applications/doc-bundle](https://packagist.org/packages/relief_applications/doc-bundle) .
+
 Step 2: Enable the Bundle
 -------------------------
 
@@ -79,7 +81,7 @@ Step 3: Usage
 
         try {
             $this->get('ra_doc.transfert')->createDocument($document, $file);
-        } catch (\Exception $e) {
+        } catch (DocumentException $e) {
             return new JsonResponse($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
@@ -91,15 +93,16 @@ Step 3: Usage
     <?php
 
     public function updateAction(Request $request, Document $document) {
-        $name       = $request->request->get('name') ?: $document->getName();
+        $name       = $request->request->get('name');
         $file       = $request->files->get('file'); //doesn't care if the file is empty or not
+        //if the file is empty, there won't be any upload
 
         //changing metaname
         $document->getDocumentMeta()->setName($name);
 
         try {
             $this->get('ra_doc.transfert')->updateDocument($document, $file);
-        } catch (\Exception $e) {
+        } catch (DocumentException $e) {
             return new JsonResponse($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     ```
@@ -111,7 +114,7 @@ Step 3: Usage
     {
         try {
             return $this->get('ra_doc.transfert')->download($document);
-        } catch (\Exception $e) {
+        } catch (DocumentException $e) {
             return new JsonResponse($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
@@ -124,11 +127,22 @@ Step 3: Usage
     {
         try{
             $this->get('ra_doc.transfert')->deleteDocument($document);
-        } catch (\Exception $e) {
+        } catch (DocumentException $e) {
             return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
         return new Response();
+    }
+
+    ```
+
+6. Get document's path in the filesystem
+    ```php
+    <?php
+    try{
+        $path = $this->get('ra_doc.transfert')->getFilePath($document);
+    } catch (DocumentException $e) {
+        //...
     }
 
     ```

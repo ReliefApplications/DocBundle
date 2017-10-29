@@ -154,6 +154,22 @@ class DocumentService
         return true;
     }
 
+    /**
+     * Get the path of the file in the filesystem
+     * @param  Document $document
+     * @return string|null
+     * @throws If the given document's class doesn't implement DocumentInterface
+     */
+    public function getFilePath(Document $document){
+
+        if( ! ($document instanceOf DocumentInterface) ){
+            throw new DocumentException([], "Document doesn't implements DocumentInterface", 1);
+        }
+
+        $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
+        return $helper->asset($document, $document->getFileField());
+    }
+
 
 
 }

@@ -1,4 +1,4 @@
 services:
-#    ra_doc.example:
-#        class: RA\DocBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+   ra_doc.transfert:
+       class: RA\DocBundle\Model\DocumentService
+       arguments: ["@service_container","@doctrine.orm.entity_manager"]

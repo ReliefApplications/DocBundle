@@ -3,6 +3,7 @@
 namespace RA\DocBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\MappedSuperclass;
 
 use RA\DocBundle\Model\Limits;
 use RA\DocBundle\Model\DocumentInterface;
@@ -21,23 +22,11 @@ use JMS\Serializer\Annotation\VirtualProperty;
 /**
  * BaseDocument
  *
- * @ORM\Table(name="document")
+ * @MappedSuperclass
  * @Vich\Uploadable
- * @ORM\Entity()
  */
 class BaseDocument implements DocumentInterface
 {
-    const DOC_PRIVATE   = 0;
-    const DOC_PUBLIC    = 1;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @ORM\Column(type="string", length=255, name="name")
@@ -90,16 +79,6 @@ class BaseDocument implements DocumentInterface
     {
         $this->documentMeta = null;
         $this->updatedAt = new \DateTime('now');
-    }
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

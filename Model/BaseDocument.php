@@ -35,7 +35,7 @@ class BaseDocument implements DocumentInterface
      * @expose
      * @Groups({"FullDocument"})
      */
-    private $name;
+    protected $name;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -59,21 +59,21 @@ class BaseDocument implements DocumentInterface
      *
      * @var File $file
      */
-    private $file;
+    protected $file;
 
     /**
      * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
      *
      * @var EmbeddedFile
      */
-    private $documentMeta;
+    protected $documentMeta;
 
     /**
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     public function __construct()
     {

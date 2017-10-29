@@ -19,13 +19,13 @@ use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
- * Document
+ * BaseDocument
  *
  * @ORM\Table(name="document")
  * @Vich\Uploadable
  * @ORM\Entity()
  */
-class Document implements DocumentInterface
+class BaseDocument implements DocumentInterface
 {
     const DOC_PRIVATE   = 0;
     const DOC_PUBLIC    = 1;
@@ -189,7 +189,7 @@ class Document implements DocumentInterface
      *
      * @param \DateTime $updatedAt
      *
-     * @return Document
+     * @return BaseDocument
      */
     public function setUpdatedAt($updatedAt)
     {

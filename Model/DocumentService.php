@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Entity\File as VichFile;
 
-use RA\DocBundle\Model\Document;
+use RA\DocBundle\Model\BaseDocument as Document;
 use RA\DocBundle\Model\DocumentException;
 use RA\DocBundle\Model\DocumentInterface;
 

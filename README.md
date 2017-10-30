@@ -1,4 +1,7 @@
-
+[![Latest Stable Version](https://poser.pugx.org/relief_applications/doc-manager-bundle/v/stable)](https://packagist.org/packages/relief_applications/doc-manager-bundle)
+[![Total Downloads](https://poser.pugx.org/relief_applications/doc-manager-bundle/downloads)](https://packagist.org/packages/relief_applications/doc-manager-bundle)
+[![Latest Unstable Version](https://poser.pugx.org/relief_applications/doc-manager-bundle/v/unstable)](https://packagist.org/packages/relief_applications/doc-manager-bundle)
+[![License](https://poser.pugx.org/relief_applications/doc-manager-bundle/license)](https://packagist.org/packages/relief_applications/doc-manager-bundle)
 DocBundle
 ==============
 

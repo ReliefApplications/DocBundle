@@ -1,5 +1,5 @@
 {
-    "name": "relief_applications/doc-bundle",
+    "name": "relief_applications/doc-manager-bundle",
     "description": "A bundle to manage upload and download of documents within database context",
     "type": "symfony-bundle",
     "license": "MIT",
